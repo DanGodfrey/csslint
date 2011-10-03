@@ -9,7 +9,7 @@ CSSLint.addFormatter({
      * @return {String} to prepend before all results
      */
     startFormat: function(){
-        return "<?xml version=\"1.0\" encoding=\"utf-8\"?><lint>";
+        return "<?xml version=\"1.0\" ?>";
     },
 
     /**
@@ -17,7 +17,7 @@ CSSLint.addFormatter({
      * @return {String} to append after all results
      */
     endFormat: function(){
-        return "</lint>";
+        return "";
     },
 
     /**
@@ -50,17 +50,15 @@ CSSLint.addFormatter({
         };
 
         if (messages.length > 0) {
-        
-            output.push("<file name=\""+filename+"\">");
+            output.push("<testsuite name=\"CSSLint\" time=\"0.000\">");        
             messages.forEach(function (message, i) {
-                if (message.rollup) {
-                    output.push("<issue severity=\"" + message.type + "\" reason=\"" + escapeSpecialCharacters(message.message) + "\" evidence=\"" + escapeSpecialCharacters(message.evidence) + "\"/>");
-                } else {
-                    output.push("<issue line=\"" + message.line + "\" char=\"" + message.col + "\" severity=\"" + message.type + "\"" +
-                        " reason=\"" + escapeSpecialCharacters(message.message) + "\" evidence=\"" + escapeSpecialCharacters(message.evidence) + "\"/>");
-                }
+                output.push("\t<testcase name=\"csslint."+filename+".issue#"+i+"\">");
+                output.push("\t\t<failure message=\"line " + message.line + ", col " + message.col + ", " +
+                         escapeSpecialCharacters(message.message) + "\">");
+                output.push("\t\t</failure>");
+                output.push("\t</testcase>");
             });
-            output.push("</file>");
+            output.push("</testsuite>");
         }
 
         return output.join("");
