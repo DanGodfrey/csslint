@@ -25,6 +25,6 @@
     ],
     "repository": {
         "type":"git",
-        "url":"http://github.com/stubbornella/csslint.git"
+        "url":"http://github.com/dangodfrey/csslint.git"
     }
 }
