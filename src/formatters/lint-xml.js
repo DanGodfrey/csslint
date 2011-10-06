@@ -48,18 +48,19 @@ CSSLint.addFormatter({
             }
             return str.replace(/\"/g, "'").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         };
-
-        output.push("<testsuite name=\"CSSLint\" time=\"0.000\">");
-        out.push("\t<testcase name=\"Generic CSSLint Test\"  time=\"0.000\"/>");        
-        messages.forEach(function (message, i) {
-            output.push("\t<testcase name=\"csslint."+filename+".issue#"+i+"\">");
-            output.push("\t\t<failure message=\"line " + message.line + ", col " + message.col + ", " +
-                     escapeSpecialCharacters(message.message) + "\">");
-            output.push("\t\t</failure>");
-            output.push("\t</testcase>");
-        });
-        output.push("</testsuite>");
-
+        
+        if (messages.length > 0) {
+            output.push("<testsuite name=\"CSSLint\" time=\"0.000\">");
+            out.push("\t<testcase name=\"Generic CSSLint Test\"  time=\"0.000\"/>");        
+            messages.forEach(function (message, i) {
+                output.push("\t<testcase name=\"csslint."+filename+".issue#"+i+"\">");
+                output.push("\t\t<failure message=\"line " + message.line + ", col " + message.col + ", " +
+                         escapeSpecialCharacters(message.message) + "\">");
+                output.push("\t\t</failure>");
+                output.push("\t</testcase>");
+            });
+            output.push("</testsuite>");
+        }    
         return output.join("");
     }
 });
